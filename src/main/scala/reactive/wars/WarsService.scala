@@ -3,11 +3,13 @@ package reactive.wars
 import akka.actor.{ActorRef, ActorSystem}
 import reactive.Configuration
 import reactive.api.ApplicationJsonFormats
+import reactive.wars.RescueActor
 import reactive.websocket.WebSocket
 import spray.http.StatusCodes
 import spray.routing.Directives
 
 class WarsService(val wars : ActorRef)(implicit system : ActorSystem) extends Directives with ApplicationJsonFormats {
+  private implicit val moveFormat = jsonFormat1(RescueActor.Rescue)
   lazy val route =
     pathPrefix("wars") {
       val dir = "wars/"
@@ -17,12 +19,18 @@ class WarsService(val wars : ActorRef)(implicit system : ActorSystem) extends Di
         } ~
         post {
           handleWith {
-            move : WarsActor.HideMessage =>
-              //hide ! move
-              "hidden"
+            move: RescueActor.Rescue =>
+              wars ! move
+              "wars"
           }
+          // post {
+          //   handleWith {
+          //     move : WarsActor.Inicia =>
+          //       wars ! move
+          //      "hidden"
+          //  }
         }
-      } ~
+      }~
       path("ws") {
         requestUri { uri =>
           val wsUri = uri.withPort(Configuration.portWs)

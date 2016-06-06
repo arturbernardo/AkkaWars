@@ -1,13 +1,10 @@
 package reactive.api
 
-import reactive.find.FindActor
-import reactive.hide.HideActor
-
 import akka.actor.Props
+import reactive.wars.WarsActor
 
 trait MainActors {
   this : AbstractSystem =>
 
-  lazy val find = system.actorOf(Props[FindActor], "find")
-  lazy val hide = system.actorOf(Props[HideActor], "hide")
+  lazy val wars = system.actorOf(Props[WarsActor], "wars")
 }
