@@ -1,9 +1,8 @@
 $(document).ready(function() {
 	// hideable alert thanks to Twitter Bootstrap
-	$(".alert").alert()
+	//$(".alert").alert()
+    console.log("asdasdsad")
 	// map initialization
-	var map = initMap()
-	var markers = map.getLayer("Markers")
 	// open a WebSocket
 	var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket
     var mapSocket = new WS("ws"+location.protocol.substring(4)+"//"+window.location.hostname+":6696/wars/ws")

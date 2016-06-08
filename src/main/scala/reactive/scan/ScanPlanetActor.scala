@@ -11,8 +11,14 @@ object ScanPlanetActor {
 
 class ScanPlanetActor extends Actor with ActorLogging {
   override def receive = {
-    case WebSocket.Open(ws) =>
+    case WebSocket.Open(ws) => {
       println("inicia 2")
       sender() ! "OI"
-      }
+    }
+    case msg : String => {
+      println("inicia 2")
+      println("msg2"+ msg)
+      sender() ! msg
+    }
+  }
 }

@@ -23,12 +23,6 @@ class WarsService(val wars : ActorRef)(implicit system : ActorSystem) extends Di
               wars ! move
               "wars"
           }
-          // post {
-          //   handleWith {
-          //     move : WarsActor.Inicia =>
-          //       wars ! move
-          //      "hidden"
-          //  }
         }
       }~
       path("ws") {

@@ -2,19 +2,23 @@ package reactive.socket
 
 import akka.actor.{Actor, ActorLogging, ActorRef, Props}
 import akka.io.Tcp
-import reactive.wars.RescueActor
+import reactive.scan.ScanPlanetActor
+import reactive.wars.{RescueActor, WarsActor}
 
 class SocketActor(val connection : ActorRef) extends Actor with ActorLogging {
-  val marker = context.actorOf(Props[RescueActor])
-  marker ! RescueActor.Start(null, "C")
+  val marker = context.actorOf(Props[WarsActor])
+  //marker ! RescueActor.Start(null, "C")
   val coords = "(-?\\d+\\.\\d+)".r
   override def receive = {
     case Tcp.Received(data) =>
+      println("SocketActor data" + data)
       data.utf8String.trim match {
         case coords(msg) =>
-          marker ! RescueActor.Rescue(msg)
-        //case msg => log.info(msg)
+          println("cords" + msg)
+          marker ! ScanPlanetActor.Get
+        case msg => println("qualquer coisa " + msg)
       }
+    case x => println("qualquer coisa mesmo ")
     case Tcp.PeerClosed      => stop()
     case Tcp.ErrorClosed     => stop()
     case Tcp.Closed          => stop()

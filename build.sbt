@@ -63,3 +63,5 @@ fork in run := true
 javaOptions <++= AspectjKeys.weaverOptions in Aspectj
 
 enablePlugins(JavaServerAppPackaging)
+
+fork in run := true
