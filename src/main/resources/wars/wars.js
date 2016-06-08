@@ -9,6 +9,7 @@ $(document).ready(function() {
 	mapSocket.onmessage = function(event) {
 		console.log("data")
 		console.log(event.data)
+		$('#resposta').text(event.data)
     }
 	// if errors on websocket
 	var onalert = function(event) {
