@@ -17,6 +17,8 @@ libraryDependencies ++= {
     "io.spray"            %%  "spray-routing"         % sprayV            withSources() withJavadoc,
     "com.typesafe.akka"   %%  "akka-actor"            % akkaV             withSources() withJavadoc,
     "com.typesafe.akka"   %%  "akka-slf4j"            % akkaV             withSources() withJavadoc,
+    "net.liftweb"         %%  "lift-json"             % "2.6+",
+
     /*
     "org.aspectj"         %   "aspectjweaver"         % "1.8.5"           withSources() withJavadoc,
     "io.kamon"            %%  "kamon-core"            % kamonV            withSources() withJavadoc,
@@ -63,5 +65,7 @@ fork in run := true
 javaOptions <++= AspectjKeys.weaverOptions in Aspectj
 
 enablePlugins(JavaServerAppPackaging)
+
+fork in run := true
 
 fork in run := true
