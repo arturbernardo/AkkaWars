@@ -3,11 +3,11 @@ package reactive.socket
 import akka.actor.{Actor, ActorLogging, ActorRef, Props}
 import akka.io.Tcp
 import reactive.scan.ScanPlanetActor
-import reactive.wars.{RescueActor, WarsActor}
+import reactive.wars.{BindRescuePost, WarsActor}
 
 class SocketActor(val connection : ActorRef) extends Actor with ActorLogging {
   val marker = context.actorOf(Props[WarsActor])
-  //marker ! RescueActor.Start(null, "C")
+  //marker ! BindRescuePost.Start(null, "C")
   val coords = "(-?\\d+\\.\\d+)".r
   override def receive = {
     case Tcp.Received(data) =>
@@ -24,10 +24,10 @@ class SocketActor(val connection : ActorRef) extends Actor with ActorLogging {
     case Tcp.Closed          => stop()
     case Tcp.ConfirmedClosed => stop()
     case Tcp.Aborted         => stop()
-    case RescueActor.Stop =>
+    case BindRescuePost.Stop =>
       context stop self
   }
   private def stop() = {
-    marker ! RescueActor.Stop
+    marker ! BindRescuePost.Stop
   }
 }

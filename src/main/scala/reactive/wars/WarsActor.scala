@@ -22,44 +22,27 @@ object WarsActor {
   case class Person(name: String,height: String,mass: String,hair_color: String,skin_color: String,eye_color: String,birth_year: String,gender: String,species: List[String],created: String,edited: String,url: String)
   case class PeoplePage(count : String, next : String, previous : String, results : List[Person])
 }
-
 class WarsActor extends Actor with ActorLogging {
   val ScanPlanet = context.actorOf(Props[ScanPlanetActor])
-  val GroupSpecies = context.actorOf(Props[GroupSpecies])
   implicit val timeout = Timeout(5 seconds)
   implicit val formats = net.liftweb.json.DefaultFormats
-
   val clients = mutable.ListBuffer[WebSocket]()
+
   override def receive = {
-    case RescueActor.Rescue(msg) => {
-      val future = ScanPlanet ? msg
-      future onSuccess {
-        case json: String => {
-          self ! json
-        }
-      }
+    case BindRescuePost.Rescue(msg) => {
+      println("1")
+      ScanPlanet ! msg
     }
-    case WebSocket.Open(ws) =>
+    case WebSocket.Open(ws) => {
       if (null != ws) {
         clients += ws
         ws.send("Resgate!")
       }
-    case WarsActor.Rescue(msg) => {
     }
-    case msg: String => {
-      println("msg to client " + msg)
-      val future = GroupSpecies ? parse(msg).extract[WarsActor.PeoplePage].results
-      future onSuccess {
-        case grouped : Map[String, List[Person]] => {
-          println("future success")
-          for (client <- clients) client.send(grouped.toString())
-        }
-        case grouped2: List[Person] => {
-          println("future success")
-          for (client <- clients) client.send("RESPONDEU ?????")
-        }
-      }
+
+    case spaceShip: Map[String, List[Person]] => {
+      println("6")
+      for (client <- clients) client.send(spaceShip.toString())
     }
   }
 }
-
