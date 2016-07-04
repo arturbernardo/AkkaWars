@@ -18,16 +18,6 @@ libraryDependencies ++= {
     "com.typesafe.akka"   %%  "akka-actor"            % akkaV             withSources() withJavadoc,
     "com.typesafe.akka"   %%  "akka-slf4j"            % akkaV             withSources() withJavadoc,
     "net.liftweb"         %%  "lift-json"             % "2.6+",
-
-    /*
-    "org.aspectj"         %   "aspectjweaver"         % "1.8.5"           withSources() withJavadoc,
-    "io.kamon"            %%  "kamon-core"            % kamonV            withSources() withJavadoc,
-    "io.kamon"            %%  "kamon-spray"           % kamonV            withSources() withJavadoc,
-    "io.kamon"            %%  "kamon-statsd"          % kamonV            withSources() withJavadoc,
-    "io.kamon"            %%  "kamon-log-reporter"    % kamonV            withSources() withJavadoc,
-    "io.kamon"            %%  "kamon-system-metrics"  % kamonV            withSources() withJavadoc,
-    "io.kamon"            %%  "kamon-testkit"         % kamonV   % "test" withSources() withJavadoc,
-    // */
     "com.typesafe.akka"   %%  "akka-testkit"          % akkaV    % "test" withSources() withJavadoc,
     "io.spray"            %%  "spray-testkit"         % sprayV   % "test" withSources() withJavadoc,
     "org.scalatest"       %%  "scalatest"             % "2.2.4"  % "test",
@@ -65,6 +55,8 @@ fork in run := true
 javaOptions <++= AspectjKeys.weaverOptions in Aspectj
 
 enablePlugins(JavaServerAppPackaging)
+
+fork in run := true
 
 fork in run := true
 
